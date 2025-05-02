@@ -90,11 +90,11 @@ int main(int argc, char* argv[]) {
 			break;
 		}
 		case CONTROL: {
-			std::string filler, cmd;
+			std::string cmd;
 			std::cerr<<"\033[?25h";
 			restore_terminal();
 			while ((ch = getch()) != CONTROL) {
-				std::string cmd = "";
+				cmd = "";
 				getline(std::cin, cmd);
 				system(cmd.c_str());
 			}
