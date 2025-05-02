@@ -1,6 +1,5 @@
 #include <iostream>
-#include <sys/select.h>
-#include <vector>
+#include <cstdlib>
 #include <unistd.h>
 #include <termios.h>
 #include <csignal>
@@ -72,7 +71,6 @@ char getch() noexcept {
     }
     return 0;
 }
-
 
 bool read_byte(char& c) noexcept {
     return read(STDIN_FILENO, &c, 1) == 1;

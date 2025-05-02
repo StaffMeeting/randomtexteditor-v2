@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstdlib>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -7,6 +6,8 @@
 #include "idk.h"
 #include "keymap.h"
 int main(int argc, char* argv[]) {
+	std::cerr<<"\033[?25h";
+	restore_terminal();
 	std::string name, buffer;
 	if (argc <= 1) {
 		std::cout << "Enter filename: ";

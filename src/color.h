@@ -1,7 +1,4 @@
 #include <iostream>
-#include <string>
-#include <unistd.h>
-#include <termios.h>
 void clear() {
     std::cerr<<"\033c";
 }
