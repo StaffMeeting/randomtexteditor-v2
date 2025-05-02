@@ -1,1 +1,1 @@
-/usr/bin/g++ -O3 -march=native -g ./main.cpp -o ./(name the executable as what you want)
+/usr/bin/g++ -O3 -march=native -g ./src/main.cpp -o ./(name the executable as what you want)
