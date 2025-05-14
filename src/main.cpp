@@ -6,7 +6,6 @@
 #include "idk.h"
 #include "keymap.h"
 int main(int argc, char* argv[]) {
-	std::cerr<<"\033[?25h";
 	restore_terminal();
 	std::string name, buffer;
 	if (argc <= 1) {
@@ -30,7 +29,6 @@ int main(int argc, char* argv[]) {
 	if (content.empty()) content.emplace_back(" ");
 
 	init_getch(-1);
-	std::cerr<<"\033[?25l";
 	clear();
 
 	for (size_t i = 0; i < content.size(); ++i) {
@@ -92,14 +90,12 @@ int main(int argc, char* argv[]) {
 		}
 		case CONTROL: {
 			std::string cmd;
-			std::cerr<<"\033[?25h";
 			restore_terminal();
 			while ((ch = getch()) != CONTROL) {
 				cmd = "";
 				getline(std::cin, cmd);
 				system(cmd.c_str());
 			}
-			std::cerr<<"\033[?25l";
 			init_getch(-1);
 			break;
 		}
@@ -118,8 +114,6 @@ int main(int argc, char* argv[]) {
 		}
 		printrgb(line,col+5,content[line][col],0,0,0,255,255,255);
 	}
-
-	std::cerr<<"\033[?25h";
 	restore_terminal();
 	return 0;
 }
