@@ -28,16 +28,13 @@ int main(int argc,char** argv) {
 		std::cerr<<"\033["<<(i+1)<<";1H"<<std::setw(4)<<(i+1)<<"|"<<content[i];
 	}
 	size_t line = 0,col = 0,ch;
-	printrgb(line,col+5,content[line][col],0,0,0,255,255,255);
 	while((ch = getch()) != EXIT) {
-		clear();
-		init_getch(-1);
+		clear(); init_getch(-1);
 		switch(ch) {
 		case UP:{
 			if(line > 0) {
-				if(col > content[line-1].size()) col = content[line-1].size()-1;
-				line--;
-			}
+				if(col > content[line-1].size()) col = content[line-1].size()-1; line--;
+		    }
 			break;
 		}
 		case LEFT:{
@@ -50,8 +47,7 @@ int main(int argc,char** argv) {
 		}
 		case DOWN:{
 			if(line < content.size()-1) {
-				if(col > content[line+1].size()) col = content[line+1].size()-1;
-                line++;
+				if(col > content[line+1].size()) col = content[line+1].size()-1; line++;
 			}
 			break;
 		}
@@ -73,14 +69,12 @@ int main(int argc,char** argv) {
 			break;
 		}
 		case CONTROL:{
-			std::string cmd;
-			restore_terminal();
+			std::string cmd; restore_terminal();
 			while((ch = getch()) != CONTROL) {
 				cmd = ""; getline(std::cin,cmd);
 		        system(cmd.c_str());
 			}
-			init_getch(-1);
-			break;
+			init_getch(-1); break;
 		}
 		default:{
 			if(isprint(ch)) {content[line].insert(col,1,ch); col++;}
@@ -92,7 +86,7 @@ int main(int argc,char** argv) {
 		for(int i = 0; i < content.size(); ++i) {
 			std::cerr<<"\033["<<(i+1)<<";1H"<<std::setw(4)<<(i+1)<<"|"<<content[i];
 		}
-		printrgb(line,col+5,content[line][col],0,0,0,255,255,255);
+		move(line,col+5);
 	}
 	restore_terminal();
 	return 0;

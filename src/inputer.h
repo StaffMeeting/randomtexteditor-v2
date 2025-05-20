@@ -40,11 +40,9 @@ namespace {
 }
 void init_getch(int vtim = 0) noexcept {
     TermManager::instance().init(vtim);
-    fprintf(stderr,"\033[?25l");
 }
 void restore_terminal() noexcept {
     TermManager::instance().term_restore();
-    fprintf(stderr,"\033[?25h");
 }
 int get_arrow_key() {
     char seq[3];
