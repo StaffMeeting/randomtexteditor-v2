@@ -38,36 +38,37 @@ namespace {
         }
     };
 }
-void init_getch(int vtim = 0) noexcept {
+void init_getch(int vtim = 0) noexcept{
     TermManager::instance().init(vtim);
 }
-void restore_terminal() noexcept {
+void restore_terminal() noexcept{
     TermManager::instance().term_restore();
 }
-int get_arrow_key() {
+int get_arrow_key() noexcept{
     char seq[3];
-    if(read(STDIN_FILENO,&seq[0],1) == 1 && seq[0] == '[') {
-        if(read(STDIN_FILENO,&seq[1],1) == 1) {
-            switch(seq[1]) {
-                case 'A': return UP;
-                case 'B': return DOWN;
-                case 'C': return RIGHT;
-                case 'D': return LEFT;
+    if(read(STDIN_FILENO,&seq[0],1) == 1 && seq[0] == '['){
+        if(read(STDIN_FILENO,&seq[1],1) == 1){
+            switch(seq[1]){
+                case 'A':return UP;
+                case 'B':return DOWN;
+                case 'C':return RIGHT;
+                case 'D':return LEFT;
+                default: return ESC;
             }
         }
     }
     return 0;
 }
-char getch() noexcept {
+char getch() noexcept{
     char c = 0;
-    if(read(STDIN_FILENO,&c,1) == 1) {
-        if(c == 27) return get_arrow_key();
+    if(read(STDIN_FILENO,&c,1) == 1){
+        if(c == 27)return get_arrow_key();
         return c;
     }
     return 0;
 }
 
-bool read_byte(char& c) noexcept {
-    return read(STDIN_FILENO,&c,1) == 1;
+int read_byte(char& c) noexcept{
+    return read(STDIN_FILENO,&c,1);
 }
 
