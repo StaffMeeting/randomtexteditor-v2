@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <cstdint>
+#include <thread>
+#include <chrono>
 #include <string>
 #include <vector>
 #include <iomanip>
@@ -29,8 +31,8 @@ int main(int argc,char** argv){
 	for(size_t i = 0; i < content.size(); ++i)
 		std::cerr<<"\033["<<(i+1)<<";1H"<<std::setw(4)<<(i+1)<<"|"<<content[i];
 	size_t line = 0,col = 0;
-	for(int ch; ch != EXIT; ch = getch()){
-		clear(); init_getch(-1);
+	for(int ch=0; ch != EXIT; ch = getch()){
+		clear();
 		switch(ch){
 		case UP:{
 			if(line > 0){
@@ -89,7 +91,8 @@ int main(int argc,char** argv){
 		std::ofstream out(name);
 		for(std::string l : content) out<<l<<'\n';
 		for(int i = 0; i < content.size(); ++i){
-			std::cerr<<"\033["<<(i+1)<<";1H"<<std::setw(4)<<(i+1)<<"|"<<content[i];
+			std::cerr<<std::setw(4)<<(i+1);
+			fprintf(stderr,"|%s\n",content[i].c_str());
 		}
 		move(line,col+5);
 	}

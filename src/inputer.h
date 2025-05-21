@@ -6,33 +6,32 @@
 #include <cstdio>
 #include "keymap.h"
 namespace {
-    struct TermManager {
+    struct TermManager{
         termios original{};
         bool initialized = false;
 
-        void init(int vtim) noexcept {
-            if (initialized) return;
-
-            tcgetattr(STDIN_FILENO, &original);
+        void init(int vtim) noexcept{
+            if(initialized) return;
+            tcgetattr(STDIN_FILENO,&original);
             termios config = original;
-            config.c_lflag &= ~(ICANON | ECHO);
+            config.c_lflag &= ~(ICANON|ECHO);
             config.c_cc[VTIME] = vtim;
             config.c_cc[VMIN] = 0;
             tcsetattr(STDIN_FILENO,TCSANOW,&config);
             
             initialized = true;
-            std::signal(SIGINT, [](int) { term_restore(); exit(0); });
-            std::signal(SIGTERM, [](int) { term_restore(); exit(0); });
+            std::signal(SIGINT,[](int) {term_restore(); exit(0);});
+            std::signal(SIGTERM,[](int){term_restore(); exit(0);});
             std::atexit(term_restore);
         }
 
-        static void term_restore() noexcept {
-            if(instance().initialized) {
+        static void term_restore() noexcept{
+            if(instance().initialized){
                 tcsetattr(STDIN_FILENO,TCSADRAIN,&instance().original);
                 instance().initialized = false;
             }
         }
-        static TermManager& instance() noexcept {
+        static TermManager& instance() noexcept{
             static TermManager tm;
             return tm;
         }
@@ -60,7 +59,7 @@ int get_arrow_key() noexcept{
     return 0;
 }
 char getch() noexcept{
-    char c = 0;
+    char c;
     if(read(STDIN_FILENO,&c,1) == 1){
         if(c == 27)return get_arrow_key();
         return c;
@@ -68,7 +67,7 @@ char getch() noexcept{
     return 0;
 }
 
-int read_byte(char& c) noexcept{
-    return read(STDIN_FILENO,&c,1);
+bool read_byte(char& c) noexcept{
+    return read(STDIN_FILENO,&c,1)==1;
 }
 
