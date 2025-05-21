@@ -1,8 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <cstdint>
-#include <thread>
-#include <chrono>
 #include <string>
 #include <vector>
 #include <iomanip>
@@ -27,6 +24,7 @@ int main(int argc,char** argv){
 	while(std::getline(file,*buf))content.push_back(*buf);
 	delete buf; buf = nullptr;
 	if(content.empty())content.emplace_back(" ");
+	fprintf(stderr,"\033[?1049h\033[H\033[J");
 	init_getch(-1); clear();
 	for(size_t i = 0; i < content.size(); ++i)
 		std::cerr<<"\033["<<(i+1)<<";1H"<<std::setw(4)<<(i+1)<<"|"<<content[i];
@@ -65,10 +63,9 @@ int main(int argc,char** argv){
 		}
 		case BACKSPACE:{
 			if(col > 0){
-				content[line].erase(col-1,1);col--;
-				file.seekp(-1, std::ios_base::cur);
+				content[line].erase(col-1,1); col--;
 			}else if(line > 0){
-				col = content[line-1].length();
+				col = content[line-1].size();
 				content[line-1] += content[line];
 				content.erase(content.begin() + line); line--;
 			}
