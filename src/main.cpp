@@ -9,7 +9,7 @@ int main(int argc,char** argv){
 	restore_terminal();
 	std::string name;
 	if(argc <= 1){
-		std::cout<<"which file\n";
+		std::cout<<"which file ";
 		std::getline(std::cin,name);
 	}else name = argv[1];
 
